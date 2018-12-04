@@ -1,0 +1,20 @@
+Remove left recursions 
+<expr> -> <term><expr>’
+<expr>’ -> +<term><expr>’
+<expr>’  -> - <term><expr>’
+<expr>’ -> lambda
+<term> -> <factor><term>’
+<term>’ -> *<factor><term>’
+<term>’ -> /<factor><term>’
+<term>’ -> lambda
+<factor> -> <id>
+<factor> -> <number>
+<factor> -> (<expr>)
+<id> -> <letter> 
+<id> -> <letter><id>
+
+FIRST(<expr>) = { ( a-e 0-9 + - lambda 
+ 
+
+FIRST(<expr>’) = { + - lambda
+
