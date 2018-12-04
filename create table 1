@@ -12,9 +12,16 @@ Remove left recursions
 <factor> -> (<expr>)
 <id> -> <letter> 
 <id> -> <letter><id>
+FIND FOLLOW AND FIRST 
 
-FIRST(<expr>) = { ( a-e 0-9 + - lambda 
- 
+FIRST(<expr>) = { ( a-e 0-9 + - lambda }
+FIRST(<expr>’) = { + - lambda}
+FIRST(<term>) = { ( a-e 0-9 }
+FIRST(<term’>) = { * / lambda }
+FIRST(<factor>) = { ( a-e 0-9 }
 
-FIRST(<expr>’) = { + - lambda
-
+FOLLOW(<expr>) ={ $ ) }
+FOLLOW(<expr’>) = { $ )}
+FOLLOW<term>) = { + - $ ) }
+FOLLOW(<term’>) = { + - $ )}
+FOLLOW(<factor>) = { + - $ ) * / }
