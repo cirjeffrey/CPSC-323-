@@ -1,13 +1,13 @@
 <prog> -> program <id>; var <dec-list>; begin <stat-list>;  end
-<id> -> <letter> <id2>
-<id2> -> <letter> <id2>
-<id2> -> <digit> <id2>
+<id> -> <letter> <id2>                  // Maybe this is supposed to be 
+<id2> -> <letter> <id2>                 // <id2> -> <id2> <letter>?
+<id2> -> <digit> <id2>                  // this would allow for removal of left recursion
 <id2> -> null
 
 <dec-list> -> <dec>:<type>;
 <dec> -> <id>, <dec>
 <dev> -> <id>,<id>
-<type> integer
+<type> -> integer
 
 <stat-list> -> <stat> <stat-list2>
 <stat-list2> -> <stat> <stat-list2>
