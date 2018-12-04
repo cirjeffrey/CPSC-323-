@@ -1,0 +1,56 @@
+<prog> -> program <id>; var <dec-list>; begin <stat-list>;  end
+<id> -> <letter> <id2>
+<id2> -> <letter> <id2>
+<id2> -> <digit> <id2>
+<id2> -> null
+
+<dec-list> -> <dec>:<type>;
+<dec> -> <id>, <dec>
+<dev> -> <id>,<id>
+<type> integer
+
+<stat-list> -> <stat> <stat-list2>
+<stat-list2> -> <stat> <stat-list2>
+
+<stat> -> <write>
+<stat> -> <assign>
+
+<write> -> (<id>);
+<assign> -> <id> = <expr>;
+
+<expr> -> <expr> + <term>
+<expr> -> <expr> - <term>
+<expr> -> <term>
+
+<term> -> <term> * <factor>
+<term> -> <term>  / <factor>
+<term> -> <factor>
+
+<factor> -> <id>
+<factor> -> <number>
+<factor> -> (<expr>)
+
+<number> -> <sign><digit><number2>
+<number2> -> <digit> <number2>
+<number2> -> null
+
+<sign> -> +
+<sign> -> -
+<sign> -> null
+
+<digit> -> 0 
+<digit> -> 1
+<digit> -> 2
+<digit> -> 3
+<digit> -> 4 
+<digit> -> 5 
+<digit> -> 6 
+<digit> -> 7
+<digit> -> 8 
+<digit> -> 9 
+
+<letter> -> a
+<letter> -> b
+<letter> -> c
+<letter> -> d
+<letter> -> e
