@@ -14,7 +14,7 @@ Remove left recursions
 <id> -> <letter><id>
 FIND FOLLOW AND FIRST 
 
-FIRST(<expr>) = { ( a-e 0-9 }
+FIRST(<expr>) = { ( a-e 0-9 + - lambda }
 FIRST(<expr>’) = { + - lambda}
 FIRST(<term>) = { ( a-e 0-9 }
 FIRST(<term’>) = { * / lambda }
