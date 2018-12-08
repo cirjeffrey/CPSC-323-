@@ -5,8 +5,9 @@
 <id2> -> null
 
 <dec-list> -> <dec>:<type>;
-<dec> -> <id>, <dec>
-<dec> -> <id>,<id>
+<dec> -> <id>, <dec2>
+<dec2> -> <dec>
+<dec2> -> <id>
 <type> -> integer
 
 <stat-list> -> <stat> <stat-list2>
