@@ -19,12 +19,12 @@ int main() {
 	remove("output.txt");
 
 	while (getline(inFile, line)) {			// reads each line
-
+							// cout << line here to output textfile input line by line
 		istringstream iss(line);		// converts into tokens
 		while (iss) {
 			string tok;
 			iss >> tok;			// pushes token into tok variable
-			cout << "TOK: " << tok << endl;
+			cout << "TOK: " << tok << endl;	// outputs each individual token
 			
 			if (tok == "/*") {			// checks for multi line comment
 				comment = true;			// if bool comment== true, writeFile() does not write to file
@@ -53,11 +53,11 @@ void parseToken(string token) {
 
 	writeFile(token);
 
-	if (token == "") {					// conditional check to see if at end of line
-		if (singleComment == true)			// checks singleComment bool. if true and eol, set to false 
-			singleComment = false;			
-		writeFile("\n");
-	}
+	if (token == "") {				// conditional check to see if at end of line			
+	   writeFile("\n");	
+	    if (singleComment == true)			// checks singleComment bool. if true and eol, set to false 
+	    	singleComment = false;			// waits for empty token or newline token, flips bool
+	}						
 }
 
 void writeFile(string token) {					// write to file if not in comment/singleComment state
