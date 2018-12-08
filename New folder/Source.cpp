@@ -4,8 +4,7 @@
 #include <string>
 using namespace std;
 
-void errorMsg(string name);
-void programState(string);
+
 void writeFile(string);
 
 bool comment = false;
@@ -16,31 +15,27 @@ char buffer[100];
 int main() {
 	string state, line;
 	ifstream inFile;
-	inFile.open("input.txt");
+	inFile.open("input.txt");					
 	remove("output.txt");
 
-	while (getline(inFile, line)) {
+	while (getline(inFile, line)) {			// reads each line
 
-		istringstream iss(line);
+		istringstream iss(line);		// converts into tokens
 		while (iss) {
 			string tok;
-			iss >> tok;
+			iss >> tok;			// pushes token into tok variable
 			cout << "TOK: " << tok << endl;
-			if (tok == "/*") {
-				comment = true;
+			
+			if (tok == "/*") {			// checks for multi line comment
+				comment = true;			// if bool comment== true, writeFile() does not write to file
 			}
 			if (tok == "*/") {
 				comment = false;
 				break;
 			}
 
-			parseToken(tok);
-
-	
-
+			parseToken(tok);		// analyze token
 		}
-	
-
 
 	}
 	system("pause");
@@ -49,49 +44,28 @@ int main() {
 
 void parseToken(string token) {
 	for (int i = 0; i < token.length(); i++) {
-		buffer[i] == token[i];
-	  /*	if (token[i] == ';') {
-			token.pop_back();
-		}*/
-		
-	}
-
+		buffer[i] == token[i];				// pushes each char into a buffer char array	
+	}							// allows code to check if some tokens contain comments or symbols
+								// ex: "//describe" is one token and so we need to separete the word
 	if (token[0] == '/' && token[1] == '/') {
-		cout << "SINGLE LINE COMMENT ";
 		singleComment = true;
 	}
 
 	writeFile(token);
 
-	if (token == "") {
-		if (singleComment = true)
-			singleComment = false;
+	if (token == "") {					// conditional check to see if at end of line
+		if (singleComment == true)			// checks singleComment bool. if true and eol, set to false 
+			singleComment = false;			
 		writeFile("\n");
 	}
-
-	if (token == "var " || token == "begin")
-		cout << "TOKEN:" << token << endl;
 }
 
-void writeFile(string token) {
+void writeFile(string token) {					// write to file if not in comment/singleComment state
 	if (comment != true && singleComment != true) {
 		ofstream outFile;
 		outFile.open("output.txt", ::ios_base::app);
 		outFile << " " << token;
 		outFile.close();
 	}
-
-}
-
-void programState(string str) {
-	if (str == "program") {
-
-	}
-}
-
-
-void errorMsg(string name) {
-
-	cout << name << " is expected" << endl;
 
 }
