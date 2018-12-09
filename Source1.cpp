@@ -50,22 +50,24 @@ bool isAccepted(vector<string> w, size_t length, stack<string>s) {
 	//once it matches $ or " " during each iteration
 	int num_of_commas = 0;
 	int curr_comma = 1;
-	for (int k = 0; k < w.size(); k++) {
+	for (int k = 0; k < 1; k++) {
 		if (w[k] == ",")
 			num_of_commas++;
 	}
-	for (int j = 0; j < length; j++) {
+	for (int j = 0; j < w.size(); j++) {
 		int i = 0;
-		int token_size = w[j].size();
-		
+		int f;
+		int token_size = 1;
+		f = w[j].size();
 		for (int z = 0; z < reserved_words.size(); z++) {
 			if (w[j] == reserved_words[z]) {
 				cout << "RESERVED WORDsubstr: " << w[j].substr(i, w[j].size());
-				token_size = 1;
-				
+				token_size = w[j].size();
+				fefe = 1;
 			}
 		}
-		while (i < token_size) {
+		while (i < f) {
+			
 			int r = getRow(t);
 			int c = getCol(w[j].substr(i, token_size));
 			e = table[r][c];
@@ -108,7 +110,8 @@ bool isAccepted(vector<string> w, size_t length, stack<string>s) {
 				std::vector<std::string> tokens(beg, end); // done!
 
 				for (auto& s : tokens)
-					std::cout << '"' << s << '"' << '\n';
+					std::cout << '"' << s << '"';
+				cout << endl;
 				for (int j = tokens.size() - 1; j >= 0; j--) {
 					s.push(tokens[j]);
 				}
@@ -119,9 +122,10 @@ bool isAccepted(vector<string> w, size_t length, stack<string>s) {
 
 
 			}
+			
 		}
 	}
-
+	return false;
 }
 
 
@@ -132,21 +136,73 @@ void showStack(stack<string> s) {
 
 }
 int main() {
-	vector<string> arr = { "program", "a2018",";", "var", "ab1" ,",", "cd" ,",", "e33a", "," ,"d18", ":", "integer", ";", "begin",
-		"abl","=","33",";","cd","-","41","e33a","=","5",";","show","(","ab1", ")",";","end" };
+	/*string table[22][32] = {
+		//	P	V	B	EN	I	S	A	B	C	D	E	0	1	2	3	4	5	6	7	8	9	+	-	*	/	(	)	=	$	:	;	,
+		"program B ; var F begin J end","", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", //A
+		"", "", "", "", "", "", "C D", "C D", "C D", "C D", "C D", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", //B
+		"", "", "", "", "", "", "a", "b", "c", "d", "e", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",//C
+		"", "", "", "", "", "", "C D", "C D", "C D", "C D", "C D", "E D", "E D", "E D", "E D", "E D", "E D", "E D", "E D", "E D", "E D", "L", "L", "L", "L", "", "L", "L", "", "L", "L", "L",//D
+		"", "", "", "", "", "", "", "", "", "", "", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "", "", "", "", "", "", "", "", "", "", "",//E
+		"", "", "", "", "", "", "G : I ;", "G : I ;", "G : I ;", "G : I ;", "G : I ;", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",//F
+		"", "", "", "", "", "", "B , H", "B , H", "B , H", "B , H", "B , H", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",//G
+		"", "", "", "", "", "", "G", "G", "G", "G", "G", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",//H
+		"", "", "", "", "integer", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",//I
+		"", "", "", "", "", "K W", "K W", "K W", "K W", "K W", "K W", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",//J
+		"", "", "", "", "", "M", "N", "N", "N", "N", "N", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",//K
+		"", "", "", "", "", "J", "J", "J", "J", "J", "J", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",//L
+		"", "", "", "", "", "show", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",//M
+		"", "", "", "", "", "", "B = O ;", "B = O ;", "B = O ;", "B = O ;", "B = O ;", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "",//N
+		"", "", "", "", "", "", "P Q", "P Q", "P Q", "P Q", "P Q", "P Q", "P Q", "P Q", "P Q", "P Q", "P Q", "P Q", "P Q", "P Q", "P Q", "P Q", "P Q", "", "", "P Q", "L", "", "", "", "L", "",//O
+		"", "", "", "", "", "", "S R", "S R", "S R", "S R", "S R", "S R", "S R", "S R", "S R", "S R", "S R", "S R", "S R", "S R", "S R", "L", "L", "", "", "", "L", "", "", "", "L", "",//P
+		"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "+ P Q", "- P Q", "", "", "", "", "", "", "", "", "",//Q
+		"", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "L", "L", "* S R", "* S R", "", "L", "", "", "", "L", "",//R
+		"", "", "", "", "", "", "B", "B", "B", "B", "B", "T", "T", "T", "T", "T", "T", "T", "T", "T", "T", "", "", "", "", "( O )", "", "", "", "", "", "",//S
+		"", "", "", "", "", "", "", "", "", "", "", "V E U", "V E U", "V E U", "V E U", "V E U", "V E U", "V E U", "V E U", "V E U", "V E U", "V E U", "V E U", "", "", "", "", "", "", "", "", "",
+		"", "", "", "", "", "", "", "", "", "", "", "E U", "E U", "E U", "E U", "E U", "E U", "E U", "E U", "E U", "E U", "L", "L", "L", "L", "", "", "", "", "", "L", "",//U
+		"", "", "", "", "", "", "", "", "", "", "", "L", "L", "L", "L", "L", "L", "L", "L", "L", "L", "+", "-", "", "", "", "", "", "", "", "", "", };//V */
+	vector<string> arr = { "program" , "a2018" , ";","var","ab1",",","cd",",","e33a",",","d18",":","integer",";","begin",
+	"ab1","=","33",";","cd","=","41",";","e33a","=","5",";","show", "(" , "ab1" , ")", ";" ,
+	"d18" , "=" , "ab1", "*" , "(" , "cd" , "+" , "2" , "*" , "e33a" , ")" , ";" , "show" , "(" ,
+	"d18" , ")" , ";" , "end"};
 	stack<string> s;
-	vector<string> reserved_words = { "program","var","begin","show","end","integer" };
+	/*cout << arr.size();
 	int i = 0;
-	int token_size = arr[i].size();
-	cout << token_size << "tokensize" << endl;
-	for (int z = 0; z < reserved_words.size(); z++) {
-		if (arr[i] == reserved_words[z]) {
-			cout << "RESERVED WORDsubstr: " << arr[i].substr(i, arr[i].size());
-			token_size = 1;
+	string q = arr[0].substr(i, 7);
+	cout << q;
+	s.push("$");
+	s.push("A");
+	string t;
+	t = s.top();
+	s.pop();
+	cout << "stack: ";
+	showStack(s);
+	cout << "pushing at row " << 0 << "col " << 0 << endl;
+	std::string str = table[0][0];
+	cout << str;
+	std::istringstream buf(str);
+	std::istream_iterator<std::string> beg(buf), end;
 
-		}
+	std::vector<std::string> tokens(beg, end); // done!
+
+	for (auto& s : tokens)
+		std::cout << '"' << s << '"' << '\n';
+	for (int j = tokens.size() - 1; j >= 0; j--) {
+		s.push(tokens[j]);
 	}
-	//isAccepted(arr, arr.size(), s);
+	cout << "stack after pushing e" << endl;
+	showStack(s);
+	t = s.top();
+	cout << "the poppped string" << t << endl;
+	s.pop();
+	*/
+	
+	bool isaccep;
+	isaccep = isAccepted(arr, arr.size(), s);
+	if (isaccep)
+		cout << "accepted" << endl;
+	else
+		cout << "rejected" << endl;
+	
 	system("pause");
 	return 0;
 }
