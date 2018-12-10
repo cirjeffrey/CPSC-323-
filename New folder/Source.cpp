@@ -12,8 +12,8 @@ void parseToken(string);
 int main() {
 	string line;
 	ifstream inFile;
-	inFile.open("input.txt");
-	remove("output.txt");				// clears file during each run
+	inFile.open("finalp1.txt");
+	remove("finalp2.txt");				// clears file during each run
 
 	while (getline(inFile, line)) {			// while there are lines to get from file
 
@@ -61,7 +61,7 @@ void parseToken(string token) {
 void writeFile(string token) {
 	if (comment != true && singleComment != true) {
 		ofstream outFile;
-		outFile.open("output.txt", ::ios_base::app);
+		outFile.open("finalp2.txt", ::ios_base::app);
 		outFile << " " << token;
 		outFile.close();
 	}
