@@ -4,68 +4,65 @@
 #include <string>
 using namespace std;
 
-
 void writeFile(string);
-
 bool comment = false;
 bool singleComment = false;
 void parseToken(string);
-char buffer[100];
 
 int main() {
-	string state, line;
+	string line;
 	ifstream inFile;
-	inFile.open("input.txt");					
-	remove("output.txt");
+	inFile.open("input.txt");
+	remove("output.txt");				// clears file during each run
 
-	while (getline(inFile, line)) {			// reads each line
-							// cout << line here to output textfile input line by line
-		istringstream iss(line);		// converts into tokens
-		while (iss) {
-			string tok;
-			iss >> tok;			// pushes token into tok variable
-			cout << "TOK: " << tok << endl;	// outputs each individual token
+	while (getline(inFile, line)) {			// while there are lines to get from file
+
+		istringstream iss(line);		// convert line into separate tokens
+	
+		if (line != "" && line[1] != '/') { 	// check if line is empty or single line comment only
+			while (iss) {				
+
+				string tok;
+				iss >> tok;			// converts tokens to strings to be analyzed
 			
-			if (tok == "/*") {			// checks for multi line comment
-				comment = true;			// if bool comment== true, writeFile() does not write to file
+				if (tok == "/*") {		// checks for multi line comment
+					comment = true;
+				}
+				if (tok== "*/") {
+					comment = false;
+					break;
+				}
+					parseToken(tok);
 			}
-			if (tok == "*/") {
-				comment = false;
-				break;
-			}
-
-			parseToken(tok);		// analyze token
 		}
-
 	}
+
 	system("pause");
 }
 
-
+// function parses each individual token. 
 void parseToken(string token) {
-	for (int i = 0; i < token.length(); i++) {
-		buffer[i] == token[i];				// pushes each char into a buffer char array	
-	}							// allows code to check if some tokens contain comments or symbols
-								// ex: "//describe" is one token and so we need to separete the word
-	if (token[0] == '/' && token[1] == '/') {
+	if (token[0] == '/' && token[1] == '/') {	// checks for mid line comment
 		singleComment = true;
 	}
 
-	writeFile(token);
+	writeFile(token);							
 
-	if (token == "") {				// conditional check to see if at end of line			
-	   writeFile("\n");	
-	    if (singleComment == true)			// checks singleComment bool. if true and eol, set to false 
-	    	singleComment = false;			// waits for empty token or newline token, flips bool
-	}						
+	if (token == "" ) {				// checks for end of line and pushes a newline 
+		if (singleComment) {			// checks for end of line for single line comments
+			singleComment = false;
+		}
+	writeFile("\n");
+	}
 }
 
-void writeFile(string token) {					// write to file if not in comment/singleComment state
+
+// opens and appends to file if not in comment state
+void writeFile(string token) {
 	if (comment != true && singleComment != true) {
 		ofstream outFile;
 		outFile.open("output.txt", ::ios_base::app);
 		outFile << " " << token;
 		outFile.close();
 	}
-
 }
